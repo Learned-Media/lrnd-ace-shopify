@@ -21,6 +21,9 @@ venv/
 # Shopify
 config/settings_data.json
 
+# Migration data (generated CSVs)
+planning/data-migration/*.csv
+
 # Secrets
 *.pem
 *.key

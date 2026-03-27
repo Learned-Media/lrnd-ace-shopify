@@ -15,7 +15,7 @@
 > **Budget:** 200-280 hours
 > **Timeline:** 10-12 weeks
 > **Asana Project GID:** 1209399682946958
-> **Harvest Client ID:** 15897381
+> **Harvest Project ID:** 43710972
 > **Developer Brief:** `planning/developer-brief.md` (START HERE for new devs)
 
 Ace Party is a B2B event rental company (tents, chairs, tables, linens, catering equipment) based in Port Washington, NY. Their current site runs WordPress/WooCommerce with a Divi child theme on WPEngine. The catalog is quote-based: 93% of products show "Request Pricing" instead of a fixed price.
