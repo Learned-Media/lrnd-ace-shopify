@@ -1,14 +1,7 @@
 /* ==========================================================================
    Ace Party & Tent Rental - Brand Design Tokens
    Source: Figma file Mr6M1UwQ0i45tEOMHSHe6G (Direction A)
-   ==========================================================================
-
-   This file defines brand-specific CSS custom properties and utility classes
-   that layer on top of Dawn's default theme system. It is loaded AFTER base.css
-   in theme.liquid.
-
-   Font loading (@font-face for Geoform and Zodiak) is handled in theme.liquid
-   via a snippet, not in this file.
+   Ported to Horizon v3.4.0 from Dawn v15.4.1
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -61,28 +54,20 @@
 
 /* --------------------------------------------------------------------------
    4. Body & Base Overrides
-   --------------------------------------------------------------------------
-   Dawn defaults body text to rgba(foreground, 0.75). Ace designs use full
-   opacity text. Override here.
    -------------------------------------------------------------------------- */
 
 body {
   color: var(--ace-text-blue);
   font-family: var(--ace-font-body);
   font-weight: 400;
-  font-size: 1.5rem; /* 15px at Dawn's 10px root */
+  font-size: 1.5rem;
   line-height: 1.5;
   letter-spacing: 0;
 }
 
 /* --------------------------------------------------------------------------
    5. Typography Utility Classes
-   --------------------------------------------------------------------------
-   Named to match Figma style names. All Geoform styles are uppercase.
-   All Zodiak styles are sentence case.
    -------------------------------------------------------------------------- */
-
-/* Display - Geoform Medium, uppercase */
 
 .ace-display-super {
   font-family: var(--ace-font-heading);
@@ -111,8 +96,6 @@ body {
   text-transform: uppercase;
 }
 
-/* UI labels - Geoform Medium, uppercase */
-
 .ace-display-3 {
   font-family: var(--ace-font-heading);
   font-weight: 500;
@@ -140,8 +123,6 @@ body {
   text-transform: uppercase;
 }
 
-/* Body - Zodiak Regular, sentence case */
-
 .ace-paragraph {
   font-family: var(--ace-font-body);
   font-weight: 400;
@@ -158,10 +139,8 @@ body {
   letter-spacing: 0;
 }
 
-/* Heading overrides for Dawn's default h1-h6 */
-
-h1, h2, h3, h4, h5, h6,
-.h0, .h1, .h2, .h3, .h4, .h5, .h6 {
+/* Heading overrides */
+h1, h2, h3, h4, h5, h6 {
   font-family: var(--ace-font-heading);
   font-weight: 500;
   letter-spacing: 0.04em;
@@ -171,9 +150,6 @@ h1, h2, h3, h4, h5, h6,
 
 /* --------------------------------------------------------------------------
    6. Button Variants
-   --------------------------------------------------------------------------
-   Four variants from Figma (node 904:746).
-   Height: 40px, padding: 12px 20px, radius: 8px, CTA text style.
    -------------------------------------------------------------------------- */
 
 .ace-btn {
@@ -226,20 +202,6 @@ h1, h2, h3, h4, h5, h6,
   color: var(--ace-black);
 }
 
-/* Dawn button overrides - make Dawn's .button class match Ace brand */
-
-.button,
-button.button,
-a.button {
-  --alpha-button-background: 1;
-  border-radius: var(--ace-radius-button);
-  font-family: var(--ace-font-heading);
-  font-weight: 500;
-  font-size: 12px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
 /* --------------------------------------------------------------------------
    7. Link Styles
    -------------------------------------------------------------------------- */
@@ -254,21 +216,10 @@ a:hover {
 
 /* --------------------------------------------------------------------------
    8. Responsive Typography
-   --------------------------------------------------------------------------
-   Scale display sizes down for mobile. Figma mobile designs show smaller
-   headline sizes.
    -------------------------------------------------------------------------- */
 
 @media screen and (max-width: 749px) {
-  .ace-display-super {
-    font-size: 48px;
-  }
-
-  .ace-display-large {
-    font-size: 36px;
-  }
-
-  .ace-display-1 {
-    font-size: 28px;
-  }
+  .ace-display-super { font-size: 48px; }
+  .ace-display-large { font-size: 36px; }
+  .ace-display-1 { font-size: 28px; }
 }

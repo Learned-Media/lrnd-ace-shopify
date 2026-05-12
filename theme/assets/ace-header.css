@@ -1,75 +1,44 @@
 /* ==========================================================================
    Ace Party & Tent Rental - Header & Promo Bar Brand Overrides
    Source: Figma Navigation (904:688) and Promo Bar (904:532)
-   ==========================================================================
-   Overrides Dawn's built-in header and announcement-bar sections to match
-   the Ace brand design. Loaded conditionally by the header section.
+   Written for Horizon v3.4.0 (class names differ from Dawn)
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
-   1. Promo Bar (Dawn's announcement-bar)
+   1. Promo / Announcement Bar
    --------------------------------------------------------------------------
-   Figma: 40px height, CTA text (Geoform 12px uppercase 0.04em)
-   Three color variants handled via Dawn color schemes:
-     - Default (scheme-2/custom): yellow bg, blue text
-     - Variant 2: red bg, black text
-     - Variant 3: blue bg, white text
+   Horizon: .announcement-bar wraps the slider + slide content.
+   Figma: 40px height, Geoform 12px uppercase 0.04em
    -------------------------------------------------------------------------- */
 
-.announcement-bar-section .utility-bar {
+.announcement-bar {
   min-height: var(--ace-promo-height);
-  max-height: var(--ace-promo-height);
   display: flex;
   align-items: center;
 }
 
-.announcement-bar-section .utility-bar__grid {
-  padding-top: 0;
-  padding-bottom: 0;
-}
-
-.announcement-bar__message {
+.announcement-bar__slide {
   font-family: var(--ace-font-heading);
   font-weight: 500;
   font-size: 12px;
   line-height: 1;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  padding: 0;
-  min-height: auto;
-}
-
-.announcement-bar__message.h5 {
-  font-size: 12px;
-  letter-spacing: 0.04em;
-}
-
-.announcement-bar__link {
-  justify-content: center;
 }
 
 /* --------------------------------------------------------------------------
    2. Navigation Bar
    --------------------------------------------------------------------------
+   Horizon: header-component > .header__row > .header__columns
    Figma: 80px height, white bg, logo left, links center, icons right
    -------------------------------------------------------------------------- */
 
-.header-wrapper {
-  border-bottom: none;
+header-component {
+  --header-height: var(--ace-nav-height);
 }
 
-.header-wrapper--border-bottom {
-  border-bottom: 1px solid var(--ace-bg-gray);
-}
-
-.header {
-  min-height: var(--ace-nav-height);
-  align-items: center;
-}
-
-/* Nav link styling */
-.header__inline-menu .list-menu__item--link,
-.header__inline-menu .header__menu-item {
+/* Nav link styling - Horizon uses .menu-list__link for desktop nav */
+.menu-list__link {
   font-family: var(--ace-font-heading);
   font-weight: 500;
   font-size: 12px;
@@ -77,67 +46,49 @@
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--ace-primary-blue);
+  text-decoration: none;
 }
 
-.header__inline-menu .list-menu__item--link:hover {
+.menu-list__link:hover {
   color: var(--ace-text-blue);
 }
 
-/* Nav link gap - Figma shows 24px between links */
-.header__inline-menu .list-menu--inline > li {
-  margin-right: 2.4rem;
-}
-
-.header__inline-menu .list-menu--inline > li:last-child {
-  margin-right: 0;
-}
-
-/* Header icons (search, account, cart) */
-.header__icon {
-  color: var(--ace-primary-blue);
-}
-
-.header__icon:hover {
+/* Active state */
+.menu-list__link--active {
   color: var(--ace-text-blue);
 }
 
-/* Cart count bubble - brand red */
-.cart-count-bubble {
-  background-color: var(--ace-secondary-red);
-  color: var(--ace-black);
-  font-family: var(--ace-font-heading);
-  font-weight: 500;
-  font-size: 10px;
-  letter-spacing: 0.04em;
-}
-
-/* Logo wrapper - ensure 183px as per Figma */
-.header__heading-logo-wrapper {
+/* Logo sizing */
+.header-logo {
   max-width: 183px;
 }
 
-.header__heading-logo {
+.header-logo__image-container img {
   max-width: 183px;
 }
 
-/* Dropdown menu styling */
-.header__submenu .header__menu-item,
-.header__submenu .list-menu__item--link {
-  font-family: var(--ace-font-body);
-  font-weight: 400;
-  font-size: 14px;
-  text-transform: none;
-  letter-spacing: 0;
-  color: var(--ace-text-blue);
-}
-
-.header__submenu .header__menu-item:hover,
-.header__submenu .list-menu__item--link:hover {
+/* Header action icons (cart, search, account) */
+.header-actions__action {
   color: var(--ace-primary-blue);
 }
 
-/* Mega menu - if used */
-.mega-menu__content {
+.header-actions__action:hover {
+  color: var(--ace-text-blue);
+}
+
+/* Cart indicator - Horizon uses header-actions__cart-icon */
+.header-actions__cart-icon--has-cart {
+  color: var(--ace-secondary-red);
+}
+
+/* --------------------------------------------------------------------------
+   3. Dropdown / Mega Menu
+   --------------------------------------------------------------------------
+   Horizon: .menu-list__submenu, .mega-menu, .mega-menu__link
+   Figma: Zodiak 14px, sentence case, Ace text blue
+   -------------------------------------------------------------------------- */
+
+.menu-list__submenu {
   font-family: var(--ace-font-body);
 }
 
@@ -148,14 +99,20 @@
   text-transform: none;
   letter-spacing: 0;
   color: var(--ace-text-blue);
+  text-decoration: none;
+}
+
+.mega-menu__link:hover {
+  color: var(--ace-primary-blue);
 }
 
 /* --------------------------------------------------------------------------
-   3. Mobile Drawer Styling
+   4. Mobile Drawer
+   --------------------------------------------------------------------------
+   Horizon keeps the same .menu-drawer__menu-item class names as Dawn.
    -------------------------------------------------------------------------- */
 
-.menu-drawer__menu-item,
-.menu-drawer__menu-item--active {
+.menu-drawer__menu-item {
   font-family: var(--ace-font-heading);
   font-weight: 500;
   font-size: 14px;
@@ -164,23 +121,25 @@
   color: var(--ace-primary-blue);
 }
 
-.menu-drawer__submenu .menu-drawer__menu-item {
+.menu-drawer__menu-item--child {
   font-family: var(--ace-font-body);
   font-weight: 400;
+  font-size: 14px;
   text-transform: none;
   letter-spacing: 0;
+  color: var(--ace-text-blue);
 }
 
 /* --------------------------------------------------------------------------
-   4. Sticky Header Adjustments
+   5. Sticky Header
    --------------------------------------------------------------------------
-   Keep brand styling when header becomes sticky on scroll.
+   Horizon handles sticky state on the header-component element.
    -------------------------------------------------------------------------- */
 
-.shopify-section-header-sticky .header {
-  min-height: 60px;
+header-component[sticky] {
+  --header-height: 60px;
 }
 
-.shopify-section-header-sticky .header__heading-logo-wrapper {
+header-component[sticky] .header-logo {
   max-width: 140px;
 }

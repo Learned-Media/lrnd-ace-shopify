@@ -4,18 +4,16 @@
   Brand fonts: Geoform (headings/UI) and Zodiak (body)
 
   FONT FILE STATUS:
-  - Zodiak: Available free from Indian Type Foundry / Fontshare
-    CDN: https://api.fontshare.com/v2/css?f[]=zodiak@400&display=swap
+  - Zodiak: Available free from Fontshare CDN
   - Geoform: Commercial font from Production Type. Need .woff2 files from
-    client/designer. Until then, Montserrat (Shopify built-in) is the fallback.
+    client/designer. Using Montserrat fallback until files are available.
 
-  When font files are available:
+  When Geoform files are available:
   1. Add geoform-medium.woff2 to theme/assets/
   2. Uncomment the @font-face block below
-  3. Remove the Montserrat fallback line from ace-brand.css
+  3. Remove Montserrat from --ace-font-heading in ace-brand.css
 {% endcomment %}
 
-{%- comment -%} Zodiak from Fontshare CDN {%- endcomment -%}
 <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
 <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=zodiak@400&display=swap">
 
