@@ -2,7 +2,7 @@
 
 > **Repository:** lrnd-ace-shopify
 > **Purpose:** Shopify theme development for WooCommerce to Shopify migration
-> **Last Updated:** 2026-03-03
+> **Last Updated:** 2026-05-12
 
 ---
 
@@ -29,15 +29,18 @@ New Figma designs exist for 6 content/marketing page templates. Product catalog 
 ### Phase 1: Foundation - COMPLETE
 - [x] Shopify dev store provisioned (acepartyrental.myshopify.com)
 - [x] Shopify CLI installed and authenticated
-- [x] Dawn v15.4.1 theme cloned, committed, pushed
+- [x] Horizon v3.4.0 installed as live theme; dev sandbox "Ace Party [Dev]" (id: 155978104932)
 - [x] Design tokens extracted from Figma, CSS custom properties defined
 - [x] Zodiak font loading from Fontshare CDN (Geoform uses Montserrat fallback)
-- [x] 5 color schemes in settings_data.json
-- [x] Header styled (promo bar, nav, dropdowns, mobile drawer, sticky)
-- [x] Footer styled (gradient bg, newsletter, links, social, mobile)
+- [x] Header styled (promo bar, nav, dropdowns, mobile drawer, sticky) - ported to Horizon classes
+- [x] Footer styled (gradient bg, newsletter, links, social, mobile) - ported to Horizon block structure
 - [x] 23 Asana tickets written across 6 phases
 - [x] Content reference, nav menu structure, and icon inventory documented
 - [x] Developer brief written
+- [x] 60 smart collections created (13 top-level + 47 sub-collections including tent types)
+- [x] 689 products imported (draft status)
+- [x] URL redirects imported
+- [x] Nav menus built (build_nav.py ready to run)
 
 ### Phase 2: Homepage Sections - NEXT
 7 custom Shopify sections to build:
@@ -70,21 +73,16 @@ lrnd-ace-shopify/
       00-README.md                  # Ticket index with phases
       01-23 individual tickets      # Full specs with Figma data
     qa/                             # QA reports (future)
-  theme/                            # Shopify Dawn theme (v15.4.1)
+  theme/                            # Shopify Horizon theme (v3.4.0) - migrated from Dawn 2026-05-12
     assets/
       ace-brand.css                 # Brand tokens + typography (274 lines)
       ace-header.css                # Header + promo bar overrides (161 lines)
       ace-footer.css                # Footer gradient + layout (217 lines)
-      mask-blobs.css                # Dawn's 6 blob mask shapes (built-in)
     snippets/
       ace-fonts.liquid              # Zodiak CDN + Geoform placeholder
-    sections/
-      header.liquid                 # Modified: includes ace-header.css
-      footer.liquid                 # Modified: includes ace-footer.css
-    config/
-      settings_data.json            # 5 Ace color schemes configured
+      stylesheets.liquid            # Modified: loads ace-brand/header/footer CSS
     layout/
-      theme.liquid                  # Modified: ace-fonts + ace-brand.css
+      theme.liquid                  # Modified: renders ace-fonts snippet
   scripts/                          # Migration scripts (future)
 ```
 
@@ -92,19 +90,28 @@ lrnd-ace-shopify/
 
 ## Architecture Pattern
 
-All customization is additive - no Dawn core file edits:
+All customization is additive - no Horizon core file edits:
 
-1. Custom `ace-*.css` files layered after Dawn base styles
+1. Custom `ace-*.css` files layered after Horizon's base.css (via stylesheets.liquid)
 2. Custom `ace-*.liquid` sections for new components
 3. Custom `ace-*.js` files for interactive behavior
-4. Dawn's built-in blob masks (`mask-blobs.css`) for organic image shapes
+4. Horizon uses a block-based architecture (blocks/ directory) for header/footer composition
 
 **Conventions:**
-- CSS: `ace-{component}.css`, loaded via `{{ 'ace-{component}.css' | asset_url | stylesheet_tag }}`
+- CSS: `ace-{component}.css`, registered in `snippets/stylesheets.liquid`
 - Sections: `ace-{component}.liquid`
 - Snippets: `ace-{component}.liquid` for reusable partials
 - Variables: `--ace-` prefix (defined in ace-brand.css)
 - Commits: Conventional commits (`feat:`, `fix:`, `docs:`, `style:`)
+
+**Horizon vs Dawn differences to know:**
+- Nav links: `.menu-list__link` (not `.header__inline-menu .list-menu__item--link`)
+- Logo: `.header-logo` (not `.header__heading-logo-wrapper`)
+- Header actions: `.header-actions__action` (not `.header__icon`)
+- Mega menu: `.mega-menu__link` (same in both)
+- Mobile drawer: `.menu-drawer__menu-item` (same in both)
+- Footer: block-based via `.footer-content` (not `.footer__content-top` / `.footer__blocks-wrapper`)
+- No `mask-blobs.css` in Horizon - implement clip-path directly if needed
 
 ---
 
@@ -224,14 +231,24 @@ Quote app (Quotify, SA Request a Quote) selection is pending.
 
 ## Dev Environment
 
+- **Live theme:** Horizon v3.4.0 (id: 153877020772) - production
+- **Dev theme:** Ace Party [Dev] (id: 155978104932) - Horizon v3.4.0, unpublished sandbox
+- **Preview URL:** https://acepartyrental.myshopify.com?preview_theme_id=155978104932
+- **Theme editor:** https://acepartyrental.myshopify.com/admin/themes/155978104932/editor
+
 ```bash
-cd theme/
-shopify theme dev --store acepartyrental.myshopify.com
+# Live dev server (hot reload against dev theme)
+cd /Users/mlovascio/GitHub/lrnd-ace-shopify/theme
+SHOPIFY_CLI_THEME_TOKEN=$(op item get "Ace Shopify Admin API" --vault Engineering --fields label=credential --reveal) \
+  shopify theme dev --store acepartyrental.myshopify.com --theme 155978104932
 # Runs at http://127.0.0.1:9292
-# For remote: --host 0.0.0.0
+
+# Push specific files to dev theme
+SHOPIFY_CLI_THEME_TOKEN=$(op item get "Ace Shopify Admin API" --vault Engineering --fields label=credential --reveal) \
+  shopify theme push --store acepartyrental.myshopify.com --theme 155978104932 --only "assets/ace-brand.css"
 ```
 
-Git push does NOT deploy to Shopify. The store updates separately.
+Git push does NOT deploy to Shopify. Push separately via CLI.
 
 ---
 
@@ -264,9 +281,9 @@ Notes format: "Ace + [activity]" (e.g., "Ace + Homepage template build")
 2. Read `planning/design-tokens-spec.md` before styling
 3. Work in `theme/` directory
 4. Use CSS custom properties from ace-brand.css
-5. Never edit Dawn core files - override with CSS, add new sections
+5. Never edit Horizon core files - override with CSS, add new sections
 6. All Geoform text must be uppercase
-7. Use Dawn's `mask-blobs.css` for organic blob shapes
+7. For blob/organic shapes: use CSS clip-path directly (Horizon has no built-in mask-blobs.css)
 8. Vanilla JS only, no frameworks or build tools
 
 ### Working on Data Migration
@@ -282,7 +299,7 @@ Notes format: "Ace + [activity]" (e.g., "Ace + Homepage template build")
 2. Use `mcp__claude_ai_Figma__get_design_context` with file key and node ID
 3. Read the corresponding ticket in `planning/tickets/asana/`
 4. Read `planning/content-reference.md` for real content to populate
-5. Follow Dawn patterns for section structure
+5. Follow Horizon's block-based patterns for section structure (see blocks/ directory)
 
 ---
 
