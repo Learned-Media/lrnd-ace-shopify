@@ -1,6 +1,6 @@
 # Ace Party & Tent Rental - Shopify Migration
 
-> **Repository:** lrnd-ace-shopify
+> **Repository:** Learned-Media/lrnd-ace-shopify
 > **Purpose:** Shopify theme development for WooCommerce to Shopify migration
 > **Last Updated:** 2026-05-12
 
